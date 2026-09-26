@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('login') }}">Login</a></li>
+                <li><a href="{{ url_for('signup') }}">Sign Up</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+
+        <form  class="sign-up-log-in-container" method="POST">
+            <h2>Login</h2>
+            <label>
+                Username:
+                <input class="username" type="text" name="username" required placeholder="Enter your username">
+            </label>
+            <label>
+                Password:
+                <input class="password" type="password" name="password" required placeholder="Enter your password">
+            </label>
+            <button type="submit">Login</button>
+            <p>Need an account? <a href="{{ url_for('signup') }}">Create one</a></p>
+        </form>
+
+    </main>
+</body>
+</html>

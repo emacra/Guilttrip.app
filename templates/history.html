@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task History - {{ username }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('user', username=username) }}">Back to Planner</a></li>
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Task History</h1>
+
+        {% if grouped_history %}
+            {% for type_name, subtypes in grouped_history.items() %}
+                <section>
+                    <h2>Category: {{ type_name }}</h2>
+
+                    {% for subtype_name, tasks in subtypes.items() %}
+                        <div>
+                            <h3>Subtype: {{ subtype_name }}</h3>
+                            <ul>
+                                {% for task in tasks %}
+                                    <li>
+                                        <h4>{{ task.title }}</h4>
+                                        <p>Due: {{ task.due_date }} {% if task.due_time %}at {{ task.due_time }}{% endif %}</p>
+                                        <p>{{ task.description }}</p>
+
+                                        {% if task.status == 'overdue_unmarked' %}
+                                            <p><strong>Status:</strong> Not completed on time</p>
+
+                                            {% if task.justification %}
+                                                <p><strong>Justification:</strong> {{ task.justification }}</p>
+                                            {% else %}
+                                                <form action="{{ url_for('add_justification', task_id=task.id) }}" method="POST">
+                                                    <label for="justification_{{ task.id }}">Justification:</label>
+                                                    <input type="text" id="justification_{{ task.id }}" name="justification" placeholder="Why was this task missed?" required>
+                                                    <button type="submit">Submit Justification</button>
+                                                </form>
+                                            {% endif %}
+                                        {% else %}
+                                            <p class="completed-status">
+                                                <span aria-hidden="true">✓</span>
+                                                <strong>Status:</strong> Completed on {{ task.completed_at }}
+                                            </p>
+                                            {% if task.reflection %}
+                                                <p><strong>Reflection:</strong> {{ task.reflection }}</p>
+                                            {% else %}
+                                                <form action="{{ url_for('add_reflection', task_id=task.id) }}" method="POST">
+                                                    <label for="reflection_{{ task.id }}">Reflection:</label>
+                                                    <input type="text" id="reflection_{{ task.id }}" name="reflection" placeholder="Write a reflection..." required>
+                                                    <button type="submit">Save Reflection</button>
+                                                </form>
+                                            {% endif %}
+                                        {% endif %}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endfor %}
+                </section>
+            {% endfor %}
+        {% else %}
+            <p>No history available yet.</p>
+        {% endif %}
+    </main>
+</body>
+</html>

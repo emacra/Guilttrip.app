@@ -1,0 +1,6 @@
+<form method="POST" action="{{ url_for('add_task') }}">
+    <input name="title" required>
+    <textarea name="description"></textarea>
+    <input type="datetime-local" name="due" required>
+    <button type="submit">Add task</button>
+</form>

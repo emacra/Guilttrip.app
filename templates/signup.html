@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('login') }}">Login</a></li>
+                <li><a href="{{ url_for('signup') }}">Sign Up</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+
+        <form class="sign-up-log-in-container" method="POST">
+            <h2>Sign Up</h2>
+            <label for="username">
+                Username: 
+                <input class="username" id="username" type="text" name="username" required placeholder="Enter your username">
+            </label>
+            <br><br>
+            <label for="password">
+                Password: 
+                <input class="password" id="password" type="password" name="password" required placeholder="Enter your password" autocomplete="on" minlength="6" maxlength="20">
+            </label>
+            <br><br>
+            <div>
+                <label>Account Type:</label>
+                <select name="user_type">
+                    <option value="student">Student</option>
+                    <option value="ib_student">IB Student</option>
+                    <option value="adult">Adult / Professional</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            <br>
+            <button type="submit">Sign Up</button>
+            <p>Already have an account? <a href="{{ url_for('login') }}">Login here</a></p>
+        </form>
+    </main>
+</body>
+</html>

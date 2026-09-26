@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="freeCodeCamp Accessibility Quiz practice project" />
+    <title>Flask Planner</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li class="home-nav"><a href="">Home</a></li>
+                    <li><a href="{{ url_for('login') }}">Login</a></li>
+                    <li><a href="{{ url_for('signup') }}">Sign Up</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+    <div class="background">
+        <section class="welcome">
+            <h1>Welcome to GuilTrip</h1>
+            <p>We know you'll put off doing your work for the last possible moment and were here to help prevent that from happening (too often anyway).</p>
+            <p>Welcome to your daily workload helper - GuilTrip!</p>
+            <button><a href="{{ url_for('login') }}">Login</a></button>
+            <button><a href="{{ url_for('signup') }}">Sign Up</a></button>
+        </section>
+        <section class="about">
+            <h2>About GuilTrip</h2>
+            <p>GuilTrip is a web application designed to help users manage their daily tasks and responsibilities. It provides a user-friendly interface for creating, organizing, and tracking tasks, ensuring that users can stay productive and efficient throughout the day. With features like task prioritization, reminders (trus us these will help you more than you think), and progress tracking, GuilTrip aims to enhance time management and reduce procrastination, making it an essential tool for anyone looking to improve their productivity and achieve their goals.</p>
+        </section>
+    </div>
+        <section class="features">
+            <h2 class="features-title">Features</h2>
+        <ul>
+            <li class="odd">Task Creation: Easily create tasks with titles, descriptions, and due dates.
+            <img class="img" src="https://images.unsplash.com/photo-1542626991-cbc4e32524cc?q=80&w=2338&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="task creation"></li>
+            <li class="even">Task Organization: Categorize tasks into different lists or projects for better organization.
+            <img class="img" src="https://images.unsplash.com/photo-1542626991-cbc4e32524cc?q=80&w=2338&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="task creation"></li>
+            <li class="odd">Task Prioritization: Assign priority levels to tasks to focus on what matters most.
+            <img class="img" src="https://images.unsplash.com/photo-1542626991-cbc4e32524cc?q=80&w=2338&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="task creation"></li>
+            <li class="even">Reminders: Set reminders for tasks to ensure you never miss a deadline.
+            <img class="img" src="https://images.unsplash.com/photo-1542626991-cbc4e32524cc?q=80&w=2338&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="task creation"></li>
+            <li class="odd">Progress Tracking: Monitor your progress and mark tasks as complete to stay motivated and on track.
+            <img class="img" src="https://images.unsplash.com/photo-1542626991-cbc4e32524cc?q=80&w=2338&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="task creation"></li>
+            <li class="even">User Authentication: Secure login and sign-up functionality to protect user data and provide personalized experiences.
+            <img class="img" src="https://images.unsplash.com/photo-1542626991-cbc4e32524cc?q=80&w=2338&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="task creation"></li>
+            <li class="odd">Responsive Design: Access GuilTrip on any device, whether it's a desktop, tablet, or smartphone.
+            <img class="img" src="https://images.unsplash.com/photo-1542626991-cbc4e32524cc?q=80&w=2338&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="task creation"></li>
+        </ul>
+        </section>
+    </main>
+    <footer>
+        <address>
+            Contact: <a href="mailto:  info @guiltrip.com">info @guiltrip.com
+            </a>
+        </address>
+        <p>&copy; 2024 GuilTrip. All rights reserved.</p>
+    </footer>
+</body>
+</html>
+
