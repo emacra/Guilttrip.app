@@ -5,3 +5,4 @@ __pycache__/
 # Local app data contains private accounts and task details.
 data/users.json
 data/tasks.json
+.DS_Store
