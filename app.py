@@ -398,5 +398,8 @@ def history():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    # macOS AirPlay Receiver commonly occupies port 5000; use 5001 locally.
+    # Hosting platforms such as Render provide PORT, which takes precedence.
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=False)
 
