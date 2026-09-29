@@ -12,6 +12,10 @@ Run `python app.py` and open http://127.0.0.1:5001 on the same computer running 
 
 `127.0.0.1` is a loopback address: it always refers to the device opening the link. It will not open your copy of the app on someone else's phone or computer. To let other people use the app, deploy it to a web host and share that host's public URL.
 
+## Contributors
+
+smacra was a key contributor to this project.
+
 
 
 
