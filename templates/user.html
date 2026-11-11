@@ -99,7 +99,8 @@
             <p><strong>Description:</strong></p>
             <p id="detail_description" style="background:#f9f9f9; padding:8px; border-radius:4px;"></p>
             
-            <div style="display:flex; gap:10px;">
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                <button type="button" onclick="copyCurrentTask()">Copy Task</button>
                 <button type="button" onclick="showEditForm()">Edit Task</button>
                 <form id="delete_form" method="POST" action="" onsubmit="return confirm('Are you sure you want to delete this task?');">
                     <button type="submit" style="background-color: #d9534f; color:white;">Delete Task</button>
@@ -171,6 +172,11 @@
             </form>
         </div>
 
+        <div id="copy_status" class="copy-status" role="status" aria-live="polite" hidden>
+            <span id="copy_status_message"></span>
+            <button type="button" id="cancel_copy_button" onclick="cancelTaskCopy()">Cancel copy</button>
+        </div>
+
         <div class="calendar-container">
             {{ calendar_html | safe }}
         </div>
@@ -201,6 +207,8 @@
 
     <script>
     let currentTaskData = null;
+    let copiedTaskId = null;
+    let isPastingTask = false;
 
     document.addEventListener("DOMContentLoaded", function () {
         const calendarTable = document.querySelector(".calendar-container table");
@@ -236,6 +244,10 @@
                 if (cell.classList.contains("valid-date")) {
                     cell.addEventListener("click", function (e) {
                         if (e.target.classList.contains("calendar-task-item")) return;
+                        if (copiedTaskId !== null) {
+                            pasteTaskToDate(cellDate);
+                            return;
+                        }
                         document.getElementById("due_date").value = cellDate;
                         openModal("task_modal");
                         toggleCategoryFields('add');
@@ -256,6 +268,46 @@
         document.getElementById("task_modal").style.display = "none";
         document.getElementById("detail_modal").style.display = "none";
         document.getElementById("edit_modal").style.display = "none";
+    }
+
+    function copyCurrentTask() {
+        if (!currentTaskData) return;
+        copiedTaskId = currentTaskData.id;
+        document.getElementById("copy_status").hidden = false;
+        document.getElementById("copy_status_message").textContent =
+            `Copied "${currentTaskData.title}". Choose a date on the calendar to paste it.`;
+        closeAllModals();
+    }
+
+    function cancelTaskCopy() {
+        copiedTaskId = null;
+        document.getElementById("copy_status").hidden = true;
+        document.getElementById("copy_status_message").textContent = "";
+    }
+
+    async function pasteTaskToDate(date) {
+        if (copiedTaskId === null || isPastingTask) return;
+        isPastingTask = true;
+        document.getElementById("copy_status_message").textContent = "Copying task...";
+        document.getElementById("cancel_copy_button").disabled = true;
+
+        try {
+            const response = await fetch(`/copy_task/${copiedTaskId}`, {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: new URLSearchParams({ due_date: date })
+            });
+            const result = await response.json();
+            if (!response.ok) {
+                throw new Error(result.error || "Could not copy this task.");
+            }
+            window.location.reload();
+        } catch (error) {
+            document.getElementById("copy_status_message").textContent =
+                error.message || "Could not copy this task. Please try again.";
+            isPastingTask = false;
+            document.getElementById("cancel_copy_button").disabled = false;
+        }
     }
 
     function openDetailModal(task) {

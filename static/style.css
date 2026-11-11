@@ -294,6 +294,24 @@ footer {
     font-size: 1.4rem;
 }
 
+.copy-status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 20px auto 0;
+    padding: 10px 16px;
+    width: fit-content;
+    max-width: 90%;
+    background-color: #d4edef;
+    border-radius: 8px;
+}
+
+.copy-status[hidden] {
+    display: none;
+}
+
 .calendar-container table {
     width: 100%;
     border-radius: 10px;

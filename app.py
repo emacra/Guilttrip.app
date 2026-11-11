@@ -217,6 +217,48 @@ def edit_task(task_id):
     save_data(tasks)
     return redirect(url_for('user',username=session['username']))
 
+@app.route('/copy_task/<int:task_id>', methods=['POST'])
+def copy_task(task_id):
+    if not session.get("logged_in"):
+        return jsonify({"error": "Please log in to copy tasks."}), 401
+
+    due_date = request.form.get("due_date", "")
+    try:
+        target_date = datetime.date.fromisoformat(due_date)
+    except ValueError:
+        return jsonify({"error": "Choose a valid date."}), 400
+
+    if target_date < datetime.date.today():
+        return jsonify({"error": "Tasks cannot be copied to a past date."}), 400
+
+    username = session["username"]
+    tasks = load_data()
+    source_task = next(
+        (
+            task for task in tasks
+            if task.get("id") == task_id and task.get("username") == username
+        ),
+        None,
+    )
+    if source_task is None:
+        return jsonify({"error": "Task not found."}), 404
+
+    new_task = {
+        "id": max((task["id"] for task in tasks if "id" in task), default=0) + 1,
+        "title": source_task.get("title", ""),
+        "description": source_task.get("description", ""),
+        "due_date": target_date.isoformat(),
+        "due_time": source_task.get("due_time", ""),
+        "username": username,
+        "task_type": source_task.get("task_type", "other"),
+        "task_subtype": source_task.get("task_subtype"),
+        "done": False,
+        "status": "active",
+    }
+    tasks.append(new_task)
+    save_data(tasks)
+    return jsonify({"message": "Task copied.", "task": new_task}), 201
+
 @app.route('/delete_task/<int:task_id>', methods=['POST'])
 def delete_task(task_id):
     if not session.get("logged_in"):
@@ -402,4 +444,3 @@ if __name__ == "__main__":
     # Hosting platforms such as Render provide PORT, which takes precedence.
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port, debug=False)
-
